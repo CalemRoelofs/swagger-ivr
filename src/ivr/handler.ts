@@ -1,5 +1,5 @@
-import VoiceResponse from "twilio/lib/twiml/VoiceResponse";
-import { getApiPaths, getApiTags } from "../openapi/utils";
+import VoiceResponse, { Gather } from "twilio/lib/twiml/VoiceResponse";
+import { getApiInfo, getApiPaths, getApiTags } from "../openapi/utils";
 
 const ttsConfig: VoiceResponse.SayAttributes = {
   voice: 'woman',
@@ -8,6 +8,7 @@ const ttsConfig: VoiceResponse.SayAttributes = {
 
 export const welcome = (): string => {
   const voiceResponse = new VoiceResponse();
+  const { title, version } = getApiInfo();
 
   const gather = voiceResponse.gather({
     action: '/ivr/menu',
@@ -17,8 +18,10 @@ export const welcome = (): string => {
 
   gather.say(ttsConfig,
     `Welcome to Swagger I V R.
-    Please press 1 for paths.
-    Please press 2 for tags`
+    This documentation is for ${title} version ${version}.
+    Please press 1 for description.
+    Please press 2 for tags.
+    Please press 3 for paths.`
   )
 
   return voiceResponse.toString();
@@ -26,8 +29,9 @@ export const welcome = (): string => {
 
 export const menu = function menu(digit: string): string {
   const optionActions = {
-    '1': listPaths,
-    '2': listTags
+    '1': sayDescription,
+    '2': listTags,
+    '3': listPaths,
   };
   // @ts-ignore
   return (optionActions[digit])
@@ -36,18 +40,13 @@ export const menu = function menu(digit: string): string {
     : redirectWelcome();
 };
 
-export const listPaths = (): string => {
+export const sayDescription = (): string => {
   const twiml = new VoiceResponse();
-  const paths = getApiPaths();
+  const { description } = getApiInfo();
 
-  paths.map((path) => {
-    twiml.say(ttsConfig,
-      `Path ${path.path}. 
-      Operation: ${path.operation}.
-      Summary: ${path.summary ? path.summary : 'No summary provided'}
-      Description: ${path.description ? path.description : 'No description provided'}`
-    );
-  });
+  twiml.say(ttsConfig,
+    `Description: ${description ? description : 'No description provided.'}.`
+  );
 
   twiml.redirect('/ivr/welcome');
 
@@ -63,6 +62,24 @@ export const listTags = (): string => {
       `Name: ${tag.name}. 
       Description: ${tag.description ? tag.description : 'No description provided'}.
       `
+    );
+  });
+
+  twiml.redirect('/ivr/welcome');
+
+  return twiml.toString();
+}
+
+export const listPaths = (): string => {
+  const twiml = new VoiceResponse();
+  const paths = getApiPaths();
+
+  paths.map((path) => {
+    twiml.say(ttsConfig,
+      `Path ${path.path}. 
+      Operation: ${path.operation}.
+      Summary: ${path.summary ? path.summary : 'No summary provided'}
+      Description: ${path.description ? path.description : 'No description provided'}`
     );
   });
 

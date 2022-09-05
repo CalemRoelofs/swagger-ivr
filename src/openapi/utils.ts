@@ -13,6 +13,12 @@ export type ApiTag = {
   description?: string
 }
 
+export type ApiInfo = {
+  title: string,
+  version: string,
+  description?: string
+}
+
 /* Lazy-loaded singleton */
 const ApiDefinition = ((): any => {
 
@@ -59,4 +65,8 @@ export const getApiTags = (): ApiTag[] => {
   return Object.keys(apiDefinition.tags).map((tag) => {
     return apiDefinition.tags[tag]
   });
+}
+
+export const getApiInfo = (): ApiInfo => {
+  return ApiDefinition.getInstance('./openapi.yaml').info;
 }
