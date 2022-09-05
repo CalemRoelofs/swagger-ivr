@@ -1,5 +1,5 @@
 # Swagger IVR  
-Have you ever found yourself reading an API definition and thought _"This is too easy, there has to be a harder way!"_? 🤔  
+Finding yourself reading a API definitions and thinking _"This is too easy, there has to be a harder way!"_? 🤔  
 Sick of the bright colours and utility of [Swagger UI](https://github.com/swagger-api/swagger-ui) and [Redoc](https://github.com/Redocly/redoc)? 🎨  
 Wish you could review documentation with nothing but a screenless telephone? ☎️  
 Then look no further, your prayers have been answered! 🙌🏼  
