@@ -8,7 +8,7 @@ Swagger IVR will convert your OpenAPI definition into a [TwiML](https://www.twil
 [IVR (Interactive Voice Response)](https://www.twilio.com/docs/interactive-voice-response) webhook server 
 to build a phone tree that can be dialled into and listened to by anyone!  
 
-For a quick demo, call +44 7401 195003, which will be up for as long as there is credit remaining on that Twilio account.
+For a quick demo, call [+44 7401 195003](tel:+44-740-1195003), which will be up for as long as there is credit remaining on that Twilio account.
 
 ## Installation  
 To run the application locally:  
